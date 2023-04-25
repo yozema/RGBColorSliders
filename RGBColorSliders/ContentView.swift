@@ -27,7 +27,22 @@ struct ContentView: View {
                 Spacer()
             }
             .padding(.top)
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Done") { doneButtonPressed() }
+                }
+            }
         }
+    }
+    
+    private func doneButtonPressed() {
+        UIApplication.shared.sendAction(
+            #selector(UIResponder.resignFirstResponder),
+            to: nil,
+            from: nil,
+            for: nil
+        )
     }
 }
 
@@ -45,13 +60,15 @@ struct ColorSliderView: View {
         HStack {
             Text("\(lround(value))")
                 .foregroundColor(.white)
-                .frame(width: 35)
+                .frame(width: UIScreen.main.bounds.width * 0.1)
                 .bold()
                 .padding(.leading)
-            Slider(value: $value, in: 0...255, step: 1).accentColor(color)
+            Slider(value: $value, in: 0...255, step: 1)
+                .accentColor(color)
+                .animation(.default, value: value)
             TextField("1", value: $value, formatter: NumberFormatter())
                 .textFieldStyle(.roundedBorder)
-                .frame(width: 60)
+                .frame(width: UIScreen.main.bounds.width * 0.15)
                 .bold()
                 .multilineTextAlignment(.center)
                 .overlay(
@@ -59,6 +76,7 @@ struct ColorSliderView: View {
                         .stroke(lineWidth: 2)
                         .foregroundColor(.gray)
                 )
+                .keyboardType(.decimalPad)
                 .padding(.trailing)
         }
     }
@@ -86,3 +104,5 @@ struct ColorView: View {
             .padding()
     }
 }
+
+
