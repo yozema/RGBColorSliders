@@ -30,13 +30,14 @@ struct ContentView: View {
             .toolbar {
                 ToolbarItemGroup(placement: .keyboard) {
                     Spacer()
-                    Button("Done") { doneButtonPressed() }
+                    Button("Done", action: hidesKeyboard)
                 }
             }
         }
+        .onTapGesture { hidesKeyboard() }
     }
     
-    private func doneButtonPressed() {
+    private func hidesKeyboard() {
         UIApplication.shared.sendAction(
             #selector(UIResponder.resignFirstResponder),
             to: nil,
